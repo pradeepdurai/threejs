@@ -5,7 +5,11 @@ import { GUI } from 'dat.gui';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 const scene = new THREE.Scene()
-scene.add(new THREE.AxesHelper(5))
+// scene.add(new THREE.AxesHelper(5))
+
+const light = new THREE.DirectionalLight(0xffffff,1);
+light.position.set(2,2,5);
+scene.add(light);
 
 const camera = new THREE.PerspectiveCamera(
     75,
@@ -17,25 +21,21 @@ camera.position.z = 2
 
 const loader = new GLTFLoader();
 
-loader.load('../assets/3dModels/Vessel.glb' ,GLTF=>{
-    console.log(GLTF)
-})
-
+loader.load('3dModels/Vessel.glb',GLTF, XHR);
+function GLTF(GLTF:any){
+    let root = GLTF.scene;
+    root.scale.set(0.2,0.2,0.2)
+    scene.add(root);
+}
+function XHR(xhr:any){
+    console.log('XHR ->', (xhr.loader / xhr.total) * 100 , "% Loader" )
+}
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
 const controls = new OrbitControls(camera, renderer.domElement)
-//controls.addEventListener('change', render)
-
-const geometry = new THREE.BoxGeometry()
-const material = new THREE.MeshBasicMaterial({
-    color: 0x00ff00,
-    wireframe: true,
-})
-
-const cube = new THREE.Mesh(geometry, material)
-scene.add(cube)
+controls.addEventListener('change', render)
 
 window.addEventListener('resize', onWindowResize, false)
 function onWindowResize() {
@@ -51,14 +51,7 @@ document.body.appendChild(stats.dom)
 
 function animate() {
     requestAnimationFrame(animate)
-
-    //stats.begin()
-    //cube.rotation.x += 0.01
-    //cube.rotation.y += 0.01
-    //stats.end()
-
     render()
-
     stats.update()
 }
 
