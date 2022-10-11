@@ -15,6 +15,12 @@ const camera = new THREE.PerspectiveCamera(
 )
 camera.position.z = 2
 
+const loader = new GLTFLoader();
+
+loader.load('../assets/3dModels/Vessel.glb' ,GLTF=>{
+    console.log(GLTF)
+})
+
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
