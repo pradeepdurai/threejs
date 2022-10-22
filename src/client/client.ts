@@ -7,7 +7,9 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 const scene = new THREE.Scene()
 // scene.add(new THREE.AxesHelper(5))
 
-const light = new THREE.HemisphereLight(0xffeeb1, 0x080820, 1.5);
+scene.background = new THREE.Color(0xb6b8ba)
+
+const light = new THREE.HemisphereLight(0xffeeb1, 0x080820, 2);
 // light.position.set(2,2,4);
 
 scene.add(light);
@@ -26,13 +28,13 @@ camera.position.y = 1
 
 const loader = new GLTFLoader();
 
-loader.load('3dModels/Vesselv2.glb',GLTF, XHR);
-let root:any
-function GLTF(GLTF:any){
+loader.load('3dModels/engine2.glb',GLTF, XHR); 
+let root:any 
+function GLTF(GLTF:any){  
     root = GLTF.scene;
-    root.scale.set(0.18,0.18,0.18);
-    scene.add(root);
-    console.log(GLTF)
+    root.scale.set(0.12,0.12,0.12);
+    scene.add(root);  
+    console.log(GLTF) 
 }
 function XHR(xhr:any){
     console.log('XHR ->', (xhr.loader / xhr.total) * 100)
@@ -62,7 +64,7 @@ function animate() {
     requestAnimationFrame(animate)
     render()
     // root.rotation.x += 0.01;
-    root.rotation.y += 0.01;
+    // root.rotation.y += 0.01;
 
     stats.update()
 }
